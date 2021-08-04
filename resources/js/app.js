@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 window.axios = require('axios');
 window.draggable = require('vuedraggable');
+window.autoscroll = require('vue-autoscroll');
 
 import { BootstrapVue, BootstrapVueIcons} from 'bootstrap-vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -41,6 +42,7 @@ Vue.component('edit', require('./components/edit.vue').default);
 
 Vue.component('todo', require('./components/todolist/Todo.vue').default);
 
+Vue.component('loading', require('./components/loading/InfiniteLoading.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
