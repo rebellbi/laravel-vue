@@ -12,7 +12,7 @@
     >
       <transition-group type="transition" :name="!drag ? 'flip-list' : null">
         <li
-          class="list-group-item"
+          class="list-group-item rounded-bottom-20 rounded-top-20"
           v-for="(item, $index) in students"
           :key="$index"
           :data-num="$index + 1"
@@ -111,5 +111,13 @@ export default {
 }
 .drag-content {
   width: 100%;
+}
+.rounded-bottom-20 {
+  border-bottom-left-radius: 20px!important;
+  border-bottom-right-radius: 20px!important;
+}
+.rounded-top-20 {
+  border-top-right-radius: 20px!important;
+  border-top-left-radius: 20px!important;
 }
 </style>
