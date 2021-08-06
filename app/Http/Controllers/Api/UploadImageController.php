@@ -50,21 +50,15 @@ class UploadImageController extends Controller
             $img = Image::make(storage_path('app/test.png'));
             $width = $img->width();
             $height = $img->height();
-            if ($width > $height) {
-                $cropSize = $height;
-                $cropCoordinate = ($width - $cropSize) / 2;
-                $img->crop($cropSize, $cropSize, $cropCoordinate, 0);
-                $img->resize($finalSize, $finalSize);
-            } else if ($width < $height) {
-                $cropSize = $width;
-                $cropCoordinate = ($height - $cropSize) / 2;
-                $img->crop($cropSize, $cropSize, 0, $cropCoordinate);
-                $img->resize($finalSize, $finalSize);
-            } else {
+            if ($width === $height) {
                 $cropSize = $width / 2; //crop 1/2 of images
                 $cropCoordinate = ($width - $cropSize) / 2;
                 $img->crop($cropSize, $cropSize, $cropCoordinate, $cropCoordinate);
                 $img->resize($finalSize, $finalSize);
+            } else {
+                $img->fit($finalSize,$finalSize, function ($constraint) {
+                    $constraint->upsize();
+                });
             }
 
             $newImgName = Str::random(8);
