@@ -7,13 +7,13 @@
 
                     <div class="card-body">
                         <a class="btn btn-primary" href="/todo">Todo (Test)</a>
-                        <a class="btn btn-primary" href="/infinite-loading">Infinite Loading and Draggable (Test)</a> | 
+                        <a class="btn btn-primary" href="/infinite-loading">Infinite Loading and Draggable (Test)</a>
+                        <a class="btn btn-primary" href="/upload-image">Upload image (Test)</a> | 
                         <a class="btn btn-danger" href="/user">Example (Learn)</a>
                         <b-dropdown variant="danger" right text="Datatable (Learn)">
                             <b-dropdown-item href="/intro1">intro</b-dropdown-item>
                             <b-dropdown-item href="/intro2">intro2</b-dropdown-item>
                         </b-dropdown>
-                        <a class="btn btn-danger" href="/upload-image">Upload image (Learn)</a>
                     </div>
                 </div>
             </div>

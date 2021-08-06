@@ -38,7 +38,6 @@ export default {
       axios
         .post("api/upload", { image })
         .then((res) => {
-          console.log(res)
           this.remoteUrl = res.data.url;
         })
         .catch((err) => {

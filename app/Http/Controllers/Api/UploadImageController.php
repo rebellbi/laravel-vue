@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class UploadImageController extends Controller
 {
@@ -37,19 +38,40 @@ class UploadImageController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $base64_image = $request->image;
         if (preg_match('/^data:image\/(\w+);base64,/', $base64_image)) {
             $data = substr($base64_image, strpos($base64_image, ',') + 1);
-        
+
             $data = base64_decode($data);
             Storage::disk('local')->put("test.png", $data);
+
+            $finalSize = 500;
             $img = Image::make(storage_path('app/test.png'));
-            // $img->insert(storage_path('app/watermark.png'));
-            $img->save(storage_path('app/public/new.png'));
+            $width = $img->width();
+            $height = $img->height();
+            if ($width > $height) {
+                $cropSize = $height;
+                $cropCoordinate = ($width - $cropSize) / 2;
+                $img->crop($cropSize, $cropSize, $cropCoordinate, 0);
+                $img->resize($finalSize, $finalSize);
+            } else if ($width < $height) {
+                $cropSize = $width;
+                $cropCoordinate = ($height - $cropSize) / 2;
+                $img->crop($cropSize, $cropSize, 0, $cropCoordinate);
+                $img->resize($finalSize, $finalSize);
+            } else {
+                $cropSize = $width / 2; //crop 1/2 of images
+                $cropCoordinate = ($width - $cropSize) / 2;
+                $img->crop($cropSize, $cropSize, $cropCoordinate, $cropCoordinate);
+                $img->resize($finalSize, $finalSize);
+            }
+
+            $newImgName = Str::random(8);
+            $img->save(storage_path('app/public/' . $newImgName . '.png'));
         }
         return [
-            'url' => asset('storage/new.png')
+            'url' => asset('storage/' . $newImgName . '.png')
         ];
     }
 
