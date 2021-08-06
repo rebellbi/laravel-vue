@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::resource('user', App\Http\Controllers\Api\UserController::class);
 Route::resource('todo', App\Http\Controllers\Api\Todolistcontroller::class);
 Route::resource('student', App\Http\Controllers\Api\Studentcontroller::class);
+Route::resource('upload', App\Http\Controllers\Api\UploadImageController::class);

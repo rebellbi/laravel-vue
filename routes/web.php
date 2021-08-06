@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\InfiniteLoadingController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UploadImageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,3 +32,4 @@ Route::get('intro1/list', [App\Http\Controllers\StudentController::class, 'getSt
 Route::get('intro2', [StudentController::class, 'intro2']);
 
 Route::get('infinite-loading',[InfiniteLoadingController::class, 'index']);
+Route::get('upload-image',[UploadImageController::class, 'index']);

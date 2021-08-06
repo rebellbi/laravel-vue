@@ -43,6 +43,7 @@ Vue.component('edit', require('./components/edit.vue').default);
 Vue.component('todo', require('./components/todolist/Todo.vue').default);
 
 Vue.component('loading', require('./components/loading/InfiniteLoading.vue').default);
+Vue.component('upload-image', require('./components/UploadImage.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

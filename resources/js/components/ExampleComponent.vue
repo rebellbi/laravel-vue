@@ -13,6 +13,7 @@
                             <b-dropdown-item href="/intro1">intro</b-dropdown-item>
                             <b-dropdown-item href="/intro2">intro2</b-dropdown-item>
                         </b-dropdown>
+                        <a class="btn btn-danger" href="/upload-image">Upload image (Learn)</a>
                     </div>
                 </div>
             </div>
