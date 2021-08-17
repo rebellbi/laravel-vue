@@ -3,6 +3,7 @@
 use App\Http\Controllers\InfiniteLoadingController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UploadImageController;
+use App\Models\Test;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,10 @@ Route::get('intro1', [App\Http\Controllers\StudentController::class, 'index']);
 Route::get('intro1/list', [App\Http\Controllers\StudentController::class, 'getStudents'])->name('intro1.list');
 Route::get('intro2', [StudentController::class, 'intro2']);
 
-Route::get('infinite-loading',[InfiniteLoadingController::class, 'index']);
-Route::get('upload-image',[UploadImageController::class, 'index']);
+Route::get('infinite-loading', [InfiniteLoadingController::class, 'index']);
+Route::get('upload-image', [UploadImageController::class, 'index']);
+
+Route::get('test', function () {
+    $test = Test::all();
+    dd($test->contains('text','test3'));
+});

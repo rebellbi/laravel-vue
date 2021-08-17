@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <h1>Infinite Loading</h1>
+    <div>
+      <span>Infinite Loading</span>
+      <button class="btn btn-outline-secondary" type="reset">reset</button>
+      <button class="btn btn-info" @click="saveOrder">save</button>
+    </div>
+
     <draggable
       tag="ul"
       :list="students"
@@ -54,11 +59,12 @@ export default {
       students: [],
       drag: false,
       lastId: 0,
+      sorted: [],
     };
   },
   methods: {
     infiniteHandler($state) {
-      axios.get("api/student?last_id=" + this.lastId).then(({ data }) => {
+      axios.get("api/student?page=" + this.page).then(({ data }) => {
         if (data.length) {
           this.page += 1;
           this.students.push(...data);
@@ -69,12 +75,30 @@ export default {
         }
       });
     },
+    saveOrder() {
+      let getSorted = this.sorted.filter((data,i) => {
+        return data.id !== data.seq
+      })
+      axios
+        .put("/api/student/" + this.lastId, {
+          sorted_students: getSorted,
+        })
+        .then((res) => {
+          console.log('success')
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    },
   },
   computed: {
     dragOptions() {
-      axios.put("/api/student/" + this.lastId, {
-        students: this.students,
-      });
+      this.sorted = this.students.map((data,i) => {
+        return {
+          id: i+1,
+          seq: data.seq
+        }
+      })
       return {
         animation: 200,
         group: "description",
@@ -113,11 +137,11 @@ export default {
   width: 100%;
 }
 .rounded-bottom-20 {
-  border-bottom-left-radius: 20px!important;
-  border-bottom-right-radius: 20px!important;
+  border-bottom-left-radius: 20px !important;
+  border-bottom-right-radius: 20px !important;
 }
 .rounded-top-20 {
-  border-top-right-radius: 20px!important;
-  border-top-left-radius: 20px!important;
+  border-top-right-radius: 20px !important;
+  border-top-left-radius: 20px !important;
 }
 </style>

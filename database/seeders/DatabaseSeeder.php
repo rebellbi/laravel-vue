@@ -19,13 +19,14 @@ class DatabaseSeeder extends Seeder
 
         $gender = $faker->randomElement(['male', 'female']);
 
-    	foreach (range(1,200) as $index) {
+        foreach (range(1, 200) as $key => $index) {
             DB::table('students')->insert([
                 'name' => $faker->name($gender),
                 'email' => $faker->email,
                 'username' => $faker->username,
                 'phone' => $faker->phoneNumber,
-                'dob' => $faker->date($format = 'Y-m-d', $max = 'now')
+                'dob' => $faker->date($format = 'Y-m-d', $max = 'now'),
+                'seq' => $key + 1
             ]);
         }
     }

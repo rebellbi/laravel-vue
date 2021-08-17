@@ -15,8 +15,8 @@ class Studentcontroller extends Controller
      */
     public function index(Request $request)
     {
-        $students = Student::where('id', '>', $request->last_id)->limit(10)->get();
-        return response()->json($students);
+        $students = Student::orderBy('seq')->paginate(10);
+        return response()->json($students->items());
     }
 
     /**
@@ -69,26 +69,17 @@ class Studentcontroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $lastId)
     {
-        $students = Student::all()->take($id);
-        $difference = array_udiff_assoc($request->students, $students->toArray(), function ($a, $b) {
-            if ($a === $b) {
-                return 0;
-            }
-            return ($a > $b) ? 1 : -1;
-        });
-        // dd($request->students, $students->toArray(), $difference);
+        $sortedStudents = $request->sorted_students;
+        $students = Student::whereIn('seq', array_column($sortedStudents, 'seq'))->get();
 
-        foreach ($difference as $key => $sortedStudent) {
-            $student = Student::find($key + 1);
-            $student->name = $sortedStudent['name'] === null ? '' : $sortedStudent['name'];
-            $student->email = $sortedStudent['email'] === null ? '' : $sortedStudent['email'];
-            $student->username = $sortedStudent['username'] === null ? '' : $sortedStudent['username'];
-            $student->phone = $sortedStudent['phone'] === null ? '' : $sortedStudent['phone'];
-            $student->dob = $sortedStudent['dob'] === null ? '' : $sortedStudent['dob'];
-            $student->update();
+        foreach ($students as $student) {
+            $sortedId = array_search($student->seq, array_column($sortedStudents, 'seq'));
+            $student->seq = $sortedStudents[$sortedId]['id'] === null ? '' : $sortedStudents[$sortedId]['id'];
+            $student->save();
         }
+        return response()->json('success');
     }
 
     /**
